@@ -15,45 +15,45 @@ trap catch_errors ERR
 
 show_logo() {
   clear
-  tte -i ~/.local/share/postarch/logo.txt --frame-rate ${2:-120} ${1:-expand}
+  cat .local/share/postarch/logo.txt
   echo
 }
 
 show_subtext() {
-  echo "$1" | tte --frame-rate ${3:-640} ${2:-wipe}
+  echo "$1"
   echo
 }
 
 # Install prerequisites
 
 # Configuration
-show_logo beams 240
-show_subtext "Let's install Omarchy! [1/5]"
+show_logo
+show_subtext "Prerequisites! [1/5]"
 sleep 2
 
 # Development
-show_logo decrypt 920
+show_logo
 show_subtext "Installing terminal tools [2/5]"
 sleep 2
 
 # Desktop
-show_logo slice 60
+show_logo
 show_subtext "Installing desktop tools [3/5]"
 sleep 2
 
 # Apps
-show_logo expand
+show_logo
 show_subtext "Installing default applications [4/5]"
 sleep 2
 
 # Updates
-show_logo highlight
+show_logo
 show_subtext "Updating system packages [5/5]"
 sudo updatedb
 sudo pacman -Syu --noconfirm
 
 # Reboot
-show_logo laseretch 920
+show_logo
 show_subtext "You're done! So we'll be rebooting now..."
 
 sleep 2

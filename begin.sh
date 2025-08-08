@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
+REPO="${REPO:-raresgoidescu/postarch}"
+INSTALL_DIR="$HOME/.local/share/postarch"
+
 ansi_art='                             .x+=:.        s                                                  
                             z`    ^%      :8                                         .uef^"   
  .d``                u.        .   <k    .88                   .u    .             :d88E      
@@ -15,29 +20,23 @@ ansi_art='                             .x+=:.        s
    *8E                                                                                   J88" 
    '\''8>                                                                                   @%   
     "                                                                                  :"     '
+clear && echo -e "\n$ansi_art\n"
 
-clear
+sudo pacman -Sy --noconfirm --needed git gum
 
-echo -e "\n$ansi_art\n"
+echo "Cloning PostArch from: https://github.com/${REPO}.git"
+rm -rf "$INSTALL_DIR"
+git clone --depth 1 "https://github.com/${REPO}.git" "$INSTALL_DIR"
 
-sudo pacman -Sy --noconfirm --needed git
+# Verify integrity
+# if command -v sha256sum >/dev/null && [ -f "$INSTALL_DIR/checksums.txt" ]; then
+#     (cd "$INSTALL_DIR" && sha256sum -c checksums.txt)
+# fi
 
-REPO="${REPO:-raresgoidescu/postarch}"
+read -rp "Have you reviewed the script before running? [y/N] " review
+[[ "$review" =~ ^[Yy]$ ]] || exit 1
 
-echo -e "\nCloning PostArch from: https://github.com/${REPO}.git"
+read -rp "Proceed with installation? [y/N] " confirm
+[[ "$confirm" =~ ^[Yy]$ ]] || exit 1
 
-rm -rf ~/.local/share/postarch/
-git clone "https://github.com/${REPO}.git" ~/.local/share/postarch >/dev/null
-
-# Use custom branch if instructed
-if [[ -n "$POSTARCH_REF" ]]; then
-  echo -e "\eUsing branch: $POSTARCH_REF"
-
-  cd ~/.local/share/postarch
-  git fetch origin "${POSTARCH_REF}" && git checkout "${POSTARCH_REF}"
-  cd -
-fi
-
-echo -e "\nStarting..."
-
-source ~/.local/share/postarch/install.sh
+source "$INSTALL_DIR/install.sh"
