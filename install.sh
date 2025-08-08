@@ -3,7 +3,7 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-POSTARCH_INSTALL=~/.local/share/postarch/install
+POSTARCH_INSTALL=$HOME/.local/share/postarch/install
 
 # Give people a chance to retry running the installation
 catch_errors() {
@@ -15,7 +15,7 @@ trap catch_errors ERR
 
 show_logo() {
   clear
-  cat .local/share/postarch/logo.txt
+  cat "$HOME/.local/share/postarch/logo.txt"
   echo
 }
 
