@@ -3,19 +3,21 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-POSTARCH_INSTALL=$HOME/.local/share/postarch/install
+STARCH_INSTALL=$HOME/.local/share/starch/install
 
 # Give people a chance to retry running the installation
 catch_errors() {
-  echo -e "\n\e[31mPostArch installation failed!\e[0m"
-  echo "You can retry by running: bash ~/.local/share/postarch/install.sh"
+  echo -e "\n\e[31mstarch installation failed!\e[0m"
+  echo "You can retry by running: bash ~/.local/share/starch/install.sh"
 }
 
 trap catch_errors ERR
 
 show_logo() {
   clear
-  cat "$HOME/.local/share/postarch/logo.txt"
+  echo -e ""
+  cat "$HOME/.local/share/starch/logo.txt"
+  echo -e "\n"
   echo
 }
 
